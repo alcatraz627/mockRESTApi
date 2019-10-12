@@ -1,8 +1,16 @@
 {
     "model": "posts",
     "baseUrl": "/api/posts",
-    "methods": ["create", "read", "update", "delete"],
+    "methods": [
+        "create",
+        "read",
+        "delete"
+    ],
     "schema": [
+        {
+            "field": "_id",
+            "type": "text"
+        },
         {
             "field": "title",
             "type": "text"
@@ -17,6 +25,11 @@
         }
     ],
     "seed": [
-        {"title": "First Post", "likes": 200, "content": "This is the first post"}
+        {
+            "_id": "2",
+            "title": "First Post",
+            "likes": 200,
+            "content": "This is the first post"
+        }
     ]
 }
