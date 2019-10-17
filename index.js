@@ -2,17 +2,25 @@ const fs = require('fs')
 const path = require('path')
 const uuid4 = require('uuid/v4')
 
-const app = require('express')()
+const express = require('express')
 const bodyParser = require('body-parser')
 
 const low = require('lowdb')
 const Memory = require('lowdb/adapters/Memory')
+
+const app = express()
 
 const db = low(new Memory())
 
 // Attaching bodyparser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(express.static('static'))
+
+app.engine('html', require('ejs').renderFile)
+app.set('view engine', 'html')
+app.set('views', `${process.cwd()}/static`)
 
 // Fetch port from --port arg if povided
 let portArgIndex = JSON.parse(process.env.npm_config_argv).cooked.findIndex(e => e == "--port")
@@ -90,29 +98,11 @@ try {
     }
 
     /** Root documentation
-     * @Route [POST] / -> Simple Documentation
+     * @Route [GET] / -> Simple Documentation
+     * @Route [GET] /schema/ -> JSON schema
      */
     app.get(`/`, (req, res) => {
-        res.send(`
-<meta http-equiv="pragma" content="no-cache" />
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css">
-<div class="container">
-    <br /><br />
-    <h2 style="font-family: monospace">Model: <strong>${schema.model}</strong></h2>
-    <p>Base URL: <a href="${schema.baseUrl}" target="_blank">${schema.baseUrl}</a></p>
-    <small>Server running on port <strong>${PORT}</small>
-    <hr />
-    <h4 style="font-family: sans-serif">Enabled Methods:</h4>
-    <ul>\n${schema.methods.reduce((acc, i) => `${acc}\t\t<li style="font-family: monospace">${i}</li>\n`, "")}\t</ul>
-    <hr />
-    <h4 style="font-family: sans-serif">Schema:</h4>
-    <ul>\n${schema.schema.reduce((acc, i) => `${acc}\t\t<li style="font-family: monospace"><b>${i.field}</b>: <i>${i.type}</i></li>\n`, "")}\t</ul>
-
-    <a href="./schema" target="_blank">Model JSON Schema</a>
-</div>
-`)
+        res.render("doc.html", { schema, PORT });
     })
     app.get(`/schema`, (req, res) => {
         res.json(schema)

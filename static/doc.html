@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="css/milligram.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <title><%=schema.baseUrl%> - mockRestAPI Docs<%=schema.model%></title>
+</head>
+
+<body>
+    <div class="container">
+        <br /><br />
+        <h2 style="font-family: monospace">Model: <strong><%=schema.model%></strong></h2>
+        <p>Base URL: <a href="<%=schema.baseUrl%>" target="_blank"><%=schema.baseUrl%></a></p>
+        <small>Server running on port <strong><%=PORT%></small>
+        <hr />
+        <h4 style="font-family: sans-serif">Enabled Methods:</h4>
+        <ul>
+            <% schema.methods.forEach(m => { %><li style="font-family: monospace"><%=m%></li><%}) %>
+        </ul>
+        <ul>
+        </ul>
+        <hr />
+        <h4 style="font-family: sans-serif">Schema:</h4>
+        <ul>
+            <% schema.schema.forEach(m => { %><li style="font-family: monospace"><b><%=m.field%></b>: <i><%=m.type%></i>
+            </li><%}) %>
+        </ul>
+
+        <a href="./schema" target="_blank">View the model JSON Schema for <%=schema.model%></a>
+    </div>
+</body>
+
+</html>

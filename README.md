@@ -1,0 +1,13 @@
+- --port <port>
+- schema.json
+  - format
+    - _id
+    - type: enum types
+    - default value
+  - seed
+  - methods
+  - baseUrl || default
+- error handling
+- tests
+- nodemon to node for dev->prod
+- PASS schema.json link || default to own schema.json
