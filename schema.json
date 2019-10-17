@@ -17,7 +17,8 @@
         },
         {
             "field": "likes",
-            "type": "number"
+            "type": "number",
+            "default": 0
         },
         {
             "field": "content",
